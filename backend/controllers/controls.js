@@ -1,8 +1,21 @@
 const productCollection = require("../model/UserModel");
 
 const getProducts = async (req, res) => {
+  const {featured, name, company} = req.query
+  let queryObject = {}
+
+  if(featured){
+    queryObject.featured = featured === "true" ? true : false
+  }
+  if(name){
+    queryObject.name = {$regex: name, $options:"i"}
+  }
+  if(company){
+    queryObject.company = {$regex: company, $options:"i"}
+  }
+
   try {
-    const products = await productCollection.find({});
+    const products = await productCollection.find(queryObject);
     res.status(200).json(products);
   } catch (err) {
     console.log(err);
@@ -10,15 +23,6 @@ const getProducts = async (req, res) => {
   }
 };
 
-const getFeaturedProducts = async (req, res) => {
-  try {
-    const featured = await productCollection.find({ featured: true });
-    res.status(200).json(featured);
-  } catch (err) {
-    console.log(err);
-    res.status(404).send("not found");
-  }
-};
 
 const getProductById = async (req, res) => {
   const id = req.params.id;
@@ -35,6 +39,5 @@ const getProductById = async (req, res) => {
 
 module.exports = {
   getProducts,
-  getFeaturedProducts,
-  getProductById,
+  getProductById
 };

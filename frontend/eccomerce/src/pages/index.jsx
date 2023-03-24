@@ -4,10 +4,15 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { useState } from 'react'
 import GridItems from '@/components/GridItems'
+import Modal from '@/components/Modal'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [modal,setModal] = useState(false)
+  const handleModal = () => {
+    setModal(!modal)
+  }
   const [products, setProducts] = useState([
     {
       "_id": "62fcf1c9d288ba297c7dd3c1",
@@ -79,10 +84,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-
+        <button className='btn' onClick={handleModal}>filter</button>
       <GridItems products={products} />
 
-         
+      {modal && <Modal handleModal={handleModal}/>}
       </main>
     </>
   )
