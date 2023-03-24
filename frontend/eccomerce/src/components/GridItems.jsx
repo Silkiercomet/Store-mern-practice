@@ -3,9 +3,9 @@ import ItemCard from './ItemCard'
 
 const GridItems = ({products}) => {
   return (
-    <div className='grid'>
+    <ul className='grid'>
         {products.map(e => <ItemCard key={products.id} {...products} />)}
-    </div>
+    </ul>
   )
 }
 
