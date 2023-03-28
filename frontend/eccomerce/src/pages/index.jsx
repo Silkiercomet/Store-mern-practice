@@ -1,80 +1,19 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-import { useState } from 'react'
-import GridItems from '@/components/GridItems'
-import Modal from '@/components/Modal'
+import Head from "next/head";
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
+import { useState } from "react";
+import GridItems from "@/components/GridItems";
+import Modal from "@/components/Modal";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
-  const [modal,setModal] = useState(false)
+export default function Home({ products }) {
+  const [modal, setModal] = useState(false);
   const handleModal = () => {
-    setModal(!modal)
-  }
-  const [products, setProducts] = useState([
-    {
-      "_id": "62fcf1c9d288ba297c7dd3c1",
-      "featured": false,
-      "rating": 4.6,
-      "createdAt": "2022-08-17T13:48:45.542Z",
-      "name": "bar stool",
-      "price": 40,
-      "company": "liddy",
-      "__v": 0
-  },
-  {
-      "_id": "62fcf1c9d288ba297c7dd3c4",
-      "featured": true,
-      "rating": 0,
-      "createdAt": "2022-08-17T13:48:45.542Z",
-      "name": "entertainment center",
-      "price": 59,
-      "company": "caressa",
-      "__v": 0
-  },
-  {
-      "_id": "62fcf1c9d288ba297c7dd3c5",
-      "featured": true,
-      "rating": 0,
-      "createdAt": "2022-08-17T13:48:45.542Z",
-      "name": "high-back bench",
-      "price": 39,
-      "company": "ikea",
-      "__v": 0
-  },
-  {
-      "_id": "62fcf1c9d288ba297c7dd3c6",
-      "featured": false,
-      "rating": 0,
-      "createdAt": "2022-08-17T13:48:45.542Z",
-      "name": "leather sofa",
-      "price": 99,
-      "company": "caressa",
-      "__v": 0
-  },
-  {
-      "_id": "62fcf1c9d288ba297c7dd3c8",
-      "featured": false,
-      "rating": 0,
-      "createdAt": "2022-08-17T13:48:45.542Z",
-      "name": "modern poster",
-      "price": 30,
-      "company": "liddy",
-      "__v": 0
-  },
-  {
-      "_id": "62fcf1c9d288ba297c7dd3ca",
-      "featured": false,
-      "rating": 0,
-      "createdAt": "2022-08-17T13:48:45.542Z",
-      "name": "simple chair",
-      "price": 109,
-      "company": "liddy",
-      "__v": 0
-  }
-  ]) 
+    setModal(!modal);
+  };
+  const [productList, setProducts] = useState(products);
+
   return (
     <>
       <Head>
@@ -84,11 +23,28 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <button className='btn' onClick={handleModal}>filter</button>
-      <GridItems products={products} />
+        <button className="btn" onClick={handleModal}>
+          filter
+        </button>
+        <GridItems productList={productList} />
 
-      {modal && <Modal handleModal={handleModal}/>}
+        {modal && <Modal handleModal={handleModal} />}
       </main>
     </>
-  )
+  );
+}
+
+const getAllProducts = async () => {
+  const res = await fetch("http://localhost:3001/api/");
+  const data = res.json();
+  return data;
+};
+
+export async function getStaticProps() {
+  const productList = await getAllProducts();
+  return {
+    props: {
+      products: productList,
+    },
+  };
 }

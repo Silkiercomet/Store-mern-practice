@@ -60,7 +60,9 @@
   margin-bottom: 20px;
   cursor: pointer;
 }
-
+.product{
+  display: flex;
+}
 /*modal*/
 
 .modal {

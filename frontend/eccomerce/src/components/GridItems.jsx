@@ -1,10 +1,10 @@
 import React from 'react'
 import ItemCard from './ItemCard'
 
-const GridItems = ({products}) => {
+const GridItems = ({productList}) => {
   return (
     <ul className='grid'>
-        {products.map(e => <ItemCard key={products.id} {...products} />)}
+        {productList.map(item => <ItemCard key={item._id} {...item} id={item._id} />)}
     </ul>
   )
 }
