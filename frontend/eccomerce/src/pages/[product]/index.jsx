@@ -1,16 +1,19 @@
 import React from "react";
-
+import Link from "next/link"
 export default function Product({ product }) {
   const { name, company, _id, featured, price, rating } = product;
 
   return (
     <div className="product">
       <img src="https://picsum.photos/300/?decoration" alt={`${name}`} />
-      <div>
-        <p className="card__header">{name}</p>
-        <p className="card__price">${price}</p>
+      <div className="product__details">
+        <p className="product__card_header">{name}</p>
+        <p className="product__card_price">${price}</p>
         <p>{company}</p>
         <p>Rating: {rating}</p>
+        <Link href={`/`}>
+        <button className="btn">go back</button>
+        </Link>
       </div>
     </div>
   );
